@@ -9,7 +9,7 @@ import com.example.mycityapp.ui.screens.DetailScreen
 import com.example.mycityapp.ui.screens.HomeScreen
 
 @Composable
-fun AppNavHost(navController: NavHostController){
+fun NavHost(navController: NavHostController){
     NavHost(navController = navController, startDestination = "home"){
         composable("home"){
             HomeScreen(navController = navController)

@@ -5,13 +5,16 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,7 +39,6 @@ import com.example.mycityapp.data.models.Place
 import com.example.mycityapp.ui.viewmodels.CategoryViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryScreen(
     navController: NavHostController,
@@ -45,34 +47,29 @@ fun CategoryScreen(
 ) {
     val places = remember { mutableStateOf(viewModel.getPlaces(categoryId)) }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(
-                    text = places.value.name,
-                    style = MaterialTheme.typography.headlineLarge,
-                    textAlign = TextAlign.Center
-                ) },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back))
-                    }
-                },
+    Scaffold() { padding ->
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
+            IconButton(onClick = { navController.popBackStack() }) {
+                Icon(
+                    Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = stringResource(R.string.back)
+                )
+            }
+            Text(
+                text = places.value.name,
+                style = MaterialTheme.typography.headlineLarge,
+                textAlign = TextAlign.Center
             )
         }
-    ) { padding ->
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(padding)) {
-            LazyColumn {
-                items(places.value.places) { place ->
-                    PlaceItem(place = place) { selectedPlace ->
-                        navController.navigate("detail/${selectedPlace.id}")
-                    }
+        LazyColumn(
+            modifier = Modifier.fillMaxSize().padding(vertical = 50.dp)
+        ) {
+            items(places.value.places) { place ->
+                PlaceItem(place = place) { selectedPlace ->
+                    navController.navigate("detail/${selectedPlace.id}")
                 }
             }
         }
-
     }
 }
 

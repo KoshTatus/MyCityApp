@@ -1,17 +1,24 @@
 package com.example.mycityapp.ui.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -30,7 +37,7 @@ import com.example.mycityapp.R
 import com.example.mycityapp.ui.viewmodels.DetailViewModel
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun DetailScreen(
     placeId: Int,
@@ -39,23 +46,27 @@ fun DetailScreen(
 ) {
     val place = remember { mutableStateOf(viewModel.getAllPlaces().find { it.id == placeId }) }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(
-                    text = place.value?.name ?: "",
-                    style = MaterialTheme.typography.headlineLarge,
-                    textAlign = TextAlign.Center
-                ) },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
-                    }
-                },
+    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
+        IconButton(onClick = { navController.popBackStack() }) {
+            Icon(
+                Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = stringResource(R.string.back)
             )
         }
-    ) { padding ->
-        Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+        Text(
+            text = place.value?.name ?: "",
+            style = MaterialTheme.typography.headlineLarge,
+            textAlign = TextAlign.Center
+        )
+    }
+
+    LazyColumn(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(50.dp)
+    ) {
+        item{
             Image(
                 painter = painterResource(id = place.value?.imageId ?: R.drawable.empty),
                 contentDescription = place.value?.name,
@@ -63,23 +74,19 @@ fun DetailScreen(
                     .fillMaxWidth()
                     .height(200.dp)
             )
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxSize().padding(16.dp),
-            ) {
-                Text(
-                    text = place.value?.description ?: "",
-                    style = MaterialTheme.typography.bodyLarge,
-                    textAlign = TextAlign.Center
-                )
-                Text(
-                    text = place.value?.address ?: "",
-                    style = MaterialTheme.typography.titleLarge,
-                    textDecoration = TextDecoration.Underline,
-                    modifier = Modifier.padding(20.dp),
-                    textAlign = TextAlign.Center
-                )
-            }
+            Text(
+                text = place.value?.description ?: "",
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(10.dp)
+            )
+            Text(
+                text = place.value?.address ?: "",
+                style = MaterialTheme.typography.titleLarge,
+                textDecoration = TextDecoration.Underline,
+                modifier = Modifier.padding(20.dp),
+                textAlign = TextAlign.Center
+            )
         }
     }
 }
