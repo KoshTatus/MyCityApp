@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MyCityApp</string>
+    <string name="category">Категории</string>
+    <string name="back">Назад</string>
+</resources>
