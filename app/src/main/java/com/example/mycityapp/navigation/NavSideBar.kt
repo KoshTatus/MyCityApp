@@ -6,11 +6,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -36,6 +38,8 @@ fun DrawerContent(navController: NavHostController, drawerState: DrawerState, sc
             style = MaterialTheme.typography.headlineMedium
         )
 
+        HorizontalDivider(color = Color.Black, thickness = 2.dp)
+
         Text(
             text = stringResource(R.string.main),
             fontSize = 20.sp,
@@ -55,6 +59,7 @@ fun DrawerContent(navController: NavHostController, drawerState: DrawerState, sc
         )
 
         listOf(1, 2, 3).forEach{ it ->
+            HorizontalDivider(color = Color.Black, thickness = 1.dp)
             Text(
                 text = stringResource(
                     when(it){
@@ -79,5 +84,7 @@ fun DrawerContent(navController: NavHostController, drawerState: DrawerState, sc
                     }
             )
         }
+
+        HorizontalDivider(color = Color.Black, thickness = 1.dp)
     }
 }

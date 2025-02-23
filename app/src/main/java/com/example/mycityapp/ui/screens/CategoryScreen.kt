@@ -18,7 +18,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -43,27 +42,25 @@ fun CategoryScreen(
 ) {
     val places = remember { mutableStateOf(viewModel.getPlaces(categoryId)) }
 
-    Scaffold() { padding ->
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
-            IconButton(onClick = { navController.popBackStack() }) {
-                Icon(
-                    Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = stringResource(R.string.back)
-                )
-            }
-            Text(
-                text = places.value.name,
-                style = MaterialTheme.typography.headlineLarge,
-                textAlign = TextAlign.Center
+    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
+        IconButton(onClick = { navController.popBackStack() }) {
+            Icon(
+                Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = stringResource(R.string.back)
             )
         }
-        LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(vertical = 50.dp)
-        ) {
-            items(places.value.places) { place ->
-                PlaceItem(place = place) { selectedPlace ->
-                    navController.navigate("detail/${selectedPlace.id}")
-                }
+        Text(
+            text = places.value.name,
+            style = MaterialTheme.typography.headlineLarge,
+            textAlign = TextAlign.Center
+        )
+    }
+    LazyColumn(
+        modifier = Modifier.fillMaxSize().padding(vertical = 50.dp)
+    ) {
+        items(places.value.places) { place ->
+            PlaceItem(place = place) { selectedPlace ->
+                navController.navigate("detail/${selectedPlace.id}")
             }
         }
     }
